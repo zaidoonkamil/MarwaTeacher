@@ -9,6 +9,7 @@ const QuestionAnswer = require('./questionAnswer');
 const Exam = require('./exam'); 
 const TextExamAnswer = require("./TextExamAnswer");
 const Grade = require("./grade");
+const Lesson = require("./lesson");
 
 
 User.hasMany(UserDevice, { foreignKey: 'user_id', as: 'devices', onDelete: 'CASCADE' });
@@ -38,6 +39,8 @@ QuestionAnswer.belongsTo(ExamAnswer, { foreignKey: 'examAnswerId', as: 'examAnsw
 Question.hasMany(QuestionAnswer, { foreignKey: 'questionId', as: 'questionAnswers', onDelete: 'CASCADE' });
 QuestionAnswer.belongsTo(Question, { foreignKey: 'questionId', as: 'question', onDelete: 'CASCADE' });
 
+Course.hasMany(Lesson, { foreignKey: 'courseId', as: 'lessons', onDelete: 'CASCADE' });
+Lesson.belongsTo(Course, { foreignKey: 'courseId', as: 'course', onDelete: 'CASCADE' });
 
 module.exports = {
   User,

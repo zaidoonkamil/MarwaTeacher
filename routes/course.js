@@ -32,7 +32,6 @@ router.get("/courses", async (req, res) => {
   }
 });
 
-
 router.delete("/courses/:id", async (req, res) => {
   try {
     const { id } = req.params;
