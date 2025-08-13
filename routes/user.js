@@ -36,11 +36,11 @@ router.post("/users", upload.none(), async (req, res) => {
       userId: user.id,
       unitName: existingGrade?.unitName || "Unit One",
       lectureName: existingGrade?.lectureName || "lecture No",
-      lectureNos: existingGrade?.lectureNos || ["lecture 1", "lecture 2", "lecture 3", "lecture 4", "lecture 5"],
-      examGrades: [0, 0, 0, 0, 0],
-      originalGrades: [0, 0, 0, 0, 0],
-      resitGrades1: [0, 0, 0, 0, 0],
-      resitGrades2: [0, 0, 0, 0, 0]
+      lectureNos: existingGrade?.lectureNos || ["1", "2", "3", "4", "5", "6", "7", "8"],
+      examGrades: [0, 0, 0, 0, 0, 0, 0, 0],
+      originalGrades: [0, 0, 0, 0, 0, 0, 0, 0],
+      resitGrades1: [0, 0, 0, 0, 0, 0, 0, 0],
+      resitGrades2: [0, 0, 0, 0, 0, 0, 0, 0],
     });
 
 
