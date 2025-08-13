@@ -118,5 +118,18 @@ router.patch("/lessons/update-lock-field", async (req, res) => {
   );
 });
 
+router.get("/lessons", async (req, res) => {
+  try {
+    const lessons = await Lesson.findAll({
+      order: [['createdAt', 'ASC']]
+    });
+
+    res.status(200).json(lessons);
+  }
+  catch (err) {
+    console.error("❌ Error fetching lessons:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 module.exports = router;
