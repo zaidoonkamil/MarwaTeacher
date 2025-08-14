@@ -9,13 +9,30 @@ dotenv.config();
 const multer = require("multer");
 const upload = multer();
 const { Op } = require('sequelize');
+const cron = require('node-cron');
 
+cron.schedule('0 0 * * *', async () => {
+    try {
+        const now = new Date();
+        const deletedCount = await User.destroy({
+            where: { expiresAt: { [Op.lt]: now } }
+        });
+
+        if (deletedCount > 0) {
+            console.log(`🗑 تم حذف ${deletedCount} حساب منتهي`);
+        }
+    } catch (err) {
+        console.error("❌ خطأ أثناء حذف الحسابات المنتهية:", err);
+    }
+});
 
 router.post("/users", upload.none(), async (req, res) => {
   const { name, phone, password, role = 'user' } = req.body;
 
   try {
     const existingUser = await User.findOne({ where: { phone } });
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 365);
 
     if (existingUser) {
       return res.status(400).json({ error: "الهاتف قيد الاستخدام بالفعل" });
@@ -26,7 +43,7 @@ router.post("/users", upload.none(), async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const user = await User.create({ name, phone, password: hashedPassword, role });
+    const user = await User.create({ name, phone, password: hashedPassword, role, expiresAt });
 
     const existingGrade = await Grade.findOne({
       order: [['createdAt', 'ASC']],
@@ -49,6 +66,7 @@ router.post("/users", upload.none(), async (req, res) => {
       name: user.name,
       phone: user.phone,
       role: role,
+      expiresAt: user.expiresAt,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
     });

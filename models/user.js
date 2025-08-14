@@ -24,6 +24,10 @@ const User = sequelize.define("User", {
         type: DataTypes.ENUM("user", "admin"), 
         allowNull: false,
         defaultValue: "user",
+    },
+     expiresAt: {
+        type: DataTypes.DATE,
+        allowNull: false
     }
 }, {
     timestamps: true,
